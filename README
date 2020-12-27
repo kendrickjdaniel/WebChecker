@@ -1,0 +1,34 @@
+Checking the Links
+M. Jadud
+It’s annoying when you visit a website and links don’t work.
+We can prevent that.
+This activity has two parts: a client side and a server side. It explores how to use HTTP libraries to fetch web pages, explore the content of those pages, and ultimately, store the results of link checking in a database, fronted by an API.
+The following steps are not necessarily complete. However, they’re intended to provide a reasonable sequencing for the challenge, and certainly are not meant to mislead or otherwise lead you astray.
+Checking Pages
+The first thing we may want to do is learn how to fetch web pages from a remote server. It is recommended that, while learning, you pick a site that you know 1) is unlikely to be monitored for suspicious activity, and 2) is unlikely to be adversely affected by your work. http://jadud.com/ is safe. (The likelihood that your learning process will trigger any warnings anywhere is pretty much zero, FWIW.)
+To start, write a short Ruby script that does the following:
+Fetches a webpage.
+Prints the content.
+You should use a Ruby library that simplifies the process as much as is reasonable. There should be many, and there should be one or two that are considered “the best choice.”
+Checking Status
+There are two things you’ll need to be able to do:
+Find all of the links in a webpage.
+Check the status of a single webpage.
+By “status” I mean “HTTP status codes.” Do some reading on these. A page that is available will be reported as HTTP 200 by the server. A page that is missing is 404. There’s many status codes in the protocol.
+Modify your script (or create a new one) so that, given a URL, it will report the status code of that page. It should do this without fetching the entire page. (This means you need to send a HEAD request instead of a GET request.)
+Testing
+At this point, you should find a testing library (is there one preferred by the team?), and you should set up some tests.
+Given a list of URLs that produce known HTTP codes, writes some tests to test your script. You should probably convert your status checker to a function, so that you can more easily test it with multiple URLs. Your unit tests should be thorough, testing both the situation where you give it a good URL (that is present) as well as malformed URLs, URLs that are 404, and so on.
+When you’re done, you should have a well-tested function that returns true or false when given a URL, based on the status code reported by the server when you send it. (If you’d rather have your function return two values, you might return a true/false value and the HTTP status code as an integer.)
+It may be better to have your function return a struct? That way, you could have a field with whether or not the URL was good (true/false) and a field for the status code (integer). The person using your function should then be able to take the response value and access either of those fields, depending on their needs.
+(We’re making this up as we go along, folks…)
+Walking the Page
+Given a URL, what links are in it?
+To start, write a function that, given  a URL, fetches the content of the page. Again, think about how you want to return what that function does? Structs may be your friend.
+Given the content of the page, how would you extract all of the links? Write another function that, given the content of the page (or a struct containing the content, the status code, and any other information that you think is important), process the page so that what comes back is a struct containing the status code, the raw content of the page, and an array or list of the URLs that are in the page. For now, just look for the links that are in the HREF attributes of anchor (A) tags.
+Again, you should research libraries in Ruby that will help do this. It may be you can find a library that will convert a page into a data structure you can traverse? Or, you may find a library that, given the content of a page, will let you request elements from it (e.g. “give me all of the A tags from this page.”). Either way, you’re looking for something that will help get you to the point that you can extract stuffs from the page.
+When you’re done with this exercise, you’ll have two functions (at least):
+One function that, given a URL, returns the contents of the page.
+A second function that, given the contents of a page, returns a list of URLs within that page.
+Testing
+Test the work of the previous exercise with your unit testing library.
